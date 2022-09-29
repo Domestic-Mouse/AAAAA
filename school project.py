@@ -33,6 +33,7 @@ def core():
       self.xvel = xvelocity # determines the x and y velocity of the planet
       self.yvel = yvelocity
       self.Gravconst = 6.68*10**-11
+
     def positionUpdate(self,window):
       y = self.ypos * scale + 375
       x = self.xpos * scale + 625
@@ -45,7 +46,6 @@ def core():
       distance = math.sqrt(xdistance**2 + ydistance**2)
       force = ((self.Gravconst*self.mass*other.mass)/distance**2)
       angle = math.atan2(xdistance,ydistance)
-      print(angle)
       forceX = math.cos(angle) * force
       forceY = math.sin(angle) * force
       return forceX, forceY
@@ -55,7 +55,7 @@ def core():
 
   #defines 2 bodies
   planet1 = body(5.9*10**24,6,625,375,((0,0,255)),0,0)
-  planet2 = body(7.3*10**22,4,-1*AU,0,((255,255,255)),0,0)
+  planet2 = body(7.3*10**22,4,-1*AU,0,((255,255,255)),500,1000)
   # has the secondary planet circle the main body + draws the bodies
   pygame.display.set_caption("Orbit Simulation")
   
@@ -96,8 +96,8 @@ def core():
     forceX, forceY = body.calculation(planet2,planet1)
     totalFX += forceX
     totalFY += forceY
-    planet2.xvel += totalFX/(planet2.mass*Orbit_moon)
-    planet2.yvel += totalFY/(planet2.mass*Orbit_moon )
+    planet2.xvel += totalFX/planet2.mass*Orbit_moon
+    planet2.yvel += totalFY/planet2.mass*Orbit_moon
     planet2.xpos += (planet2.xvel * Orbit_moon)
     planet2.ypos += (planet2.yvel* Orbit_moon)
     planet2.positionUpdate(window)
