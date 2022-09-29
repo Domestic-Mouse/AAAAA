@@ -16,8 +16,8 @@ def core():
   window = pygame.display.set_mode([1250,750])
   totalFX = 0
   totalFY = 0
-  AU = 384000000 # distance from moon to Earth in M
-  scale = (250/AU)
+  AU = 384400000 # distance from moon to Earth in M
+  scale = (300/AU)
   running = True
   Orbit_moon = ((3600*24)/14)
   clock = pygame.time.Clock()
@@ -37,12 +37,13 @@ def core():
     def positionUpdate(self,window):
       y = self.ypos * scale + 375
       x = self.xpos * scale + 625
+      print(x,y)
       pygame.draw.circle(window,self.colour,(x,y),self.rad)
       pygame.draw.line(window,((255,255,255)),(planet1.xpos,planet1.ypos),(x,y))
     
     def calculation(self,other):
-      xdistance = (self.xpos - other.xpos)
-      ydistance = (self.ypos - other.ypos)
+      xdistance =  (self.xpos - other.xpos)
+      ydistance =  (self.ypos - other.ypos)
       distance = math.sqrt(xdistance**2 + ydistance**2)
       force = ((self.Gravconst*self.mass*other.mass)/distance**2)
       angle = math.atan2(xdistance,ydistance)
@@ -55,8 +56,7 @@ def core():
 
   #defines 2 bodies
   planet1 = body(5.9*10**24,6,625,375,((0,0,255)),0,0)
-  planet2 = body(7.3*10**22,4,-1*AU,0,((255,255,255)),500,1000)
-  # has the secondary planet circle the main body + draws the bodies
+  planet2 = body(7.3*10**22,4,-1*AU,0,((255,255,255)),0,0)
   pygame.display.set_caption("Orbit Simulation")
   
   while running:
@@ -93,15 +93,16 @@ def core():
 
     
     #bulk of calculations
-    forceX, forceY = body.calculation(planet2,planet1)
+    forceX, forceY = planet2.calculation(planet1)
     totalFX += forceX
     totalFY += forceY
     planet2.xvel += totalFX/planet2.mass*Orbit_moon
     planet2.yvel += totalFY/planet2.mass*Orbit_moon
+    print(math.sqrt(planet2.xvel**2+planet2.yvel**2))
     planet2.xpos += (planet2.xvel * Orbit_moon)
-    planet2.ypos += (planet2.yvel* Orbit_moon)
+    planet2.ypos += (planet2.yvel * Orbit_moon)
     planet2.positionUpdate(window)
-    print(planet2.xvel,planet2.yvel)
+    
     
 
     #draws bodies based on qualities and a line connecting bodies (temp)
