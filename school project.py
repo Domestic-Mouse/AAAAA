@@ -45,6 +45,7 @@ def core():
       distance = math.sqrt(xdistance**2 + ydistance**2)
       force = ((self.Gravconst*self.mass*other.mass)/distance**2)
       angle = math.atan2(xdistance,ydistance)
+      print(angle)
       forceX = math.cos(angle) * force
       forceY = math.sin(angle) * force
       return forceX, forceY
@@ -95,8 +96,8 @@ def core():
     forceX, forceY = body.calculation(planet2,planet1)
     totalFX += forceX
     totalFY += forceY
-    planet2.xvel += forceX/planet2.mass*Orbit_moon
-    planet2.yvel += forceY/planet2.mass*Orbit_moon
+    planet2.xvel += totalFX/(planet2.mass*Orbit_moon)
+    planet2.yvel += totalFY/(planet2.mass*Orbit_moon )
     planet2.xpos += (planet2.xvel * Orbit_moon)
     planet2.ypos += (planet2.yvel* Orbit_moon)
     planet2.positionUpdate(window)
