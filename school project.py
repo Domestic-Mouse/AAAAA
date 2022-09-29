@@ -49,7 +49,7 @@ def core():
       forceY = math.sin(angle) * force
       return forceX, forceY
     
-    
+    #page 66 kerboodle for keplar
 
 
   #defines 2 bodies
