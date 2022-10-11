@@ -30,20 +30,21 @@ def core():
       self.xvel = xvelocity # determines the x and y velocity of the planet
       self.yvel = yvelocity
       self.Gravconst = 6.68*10**-11
-      self.AU = 384400000 
-      self.scale = 300/self.AU
+      self.MU = 384400000
+      self.AU = 1.49*10**9
+      self.scale = 300/self.MU
 
     def positionUpdate(self,window):
-      y = self.ypos * self.scale + 375
-      x = self.xpos * self.scale + 625
+      y = (self.ypos * self.scale + 375)
+      x = (self.xpos * self.scale + 625)
       print(x,y)
       pygame.draw.circle(window,self.colour,(x,y),self.rad)
       pygame.draw.line(window,((255,255,255)),(planet1.xpos,planet1.ypos),(x,y))
     
     def calculation(self,other):
+      forceX=forceY=0
       xdistance =  (self.xpos - other.xpos)
       ydistance =  (self.ypos - other.ypos)
-      print(xdistance,ydistance)
       distance = math.sqrt(xdistance**2 + ydistance**2)
       force = ((self.Gravconst*self.mass*other.mass)/distance**2)
       angle = math.atan2(xdistance,ydistance)
@@ -51,18 +52,16 @@ def core():
       forceY = math.sin(angle) * force
       planet2.xvel += forceX/planet2.mass*Orbit_moon 
       planet2.yvel += forceY/planet2.mass*Orbit_moon 
-      angVel = (planet2.xvel**2+planet2.yvel**2)/self.AU
+      angVel = (planet2.xvel**2+planet2.yvel**2)/self.MU
       planet2.yvel += angVel*math.cos(angle+pi/2)
       planet2.xvel += angVel*math.sin(angle+pi/2)
       x = planet2.xvel
       y = planet2.yvel
       return x, y
-    
-
 
   #defines 2 bodies
   planet1 = body(5.9*10**24,6,625,375,((0,0,255)),0,0)
-  planet2 = body(7.3*10**22,4,-1*384400000,0,((255,255,255)),0,0)
+  planet2 = body(7.3*10**22,4,-1*384400000,0,((255,255,255)),100,-10)
   pygame.display.set_caption("Orbit Simulation")
   
   while running:
@@ -111,5 +110,5 @@ def core():
     
     pygame.draw.circle(window,((planet1.colour)),(planet1.xpos,planet1.ypos),30,0)
     pygame.draw.circle(window,((planet2.colour)),(planet2.xpos, planet2.ypos),7.5,0)
-    time.sleep(0.038)
+    #time.sleep(0.038)
 core()
