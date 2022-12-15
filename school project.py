@@ -26,8 +26,8 @@ class body(): #B for OOP
       self.AU = 1.49*10**9
       self.scale1 = 3/self.MU
       self.scale2 = 12/self.AU
-      self.scale3 = 1.5/(self.MU+self.AU)
-      self.Orbit_moon = ((3600*24/14)) # time scale for moon
+      self.scale3 = 1.5/(self.AU +self.MU)
+      self.Orbit_moon = ((3600*24/(365/28))) # time scale for moon
       self.Orbit_Sun = ((3600*24))# time scale for Sun
 
     def positionUpdate(self,window,core,scale): #Updates the postion of an orbiting object
@@ -63,14 +63,16 @@ class body(): #B for OOP
       forceY=0
       xdistance =  (self.xpos - core.xpos) #finds distance vectors
       ydistance =  (self.ypos - core.ypos)
-      distance = math.sqrt(xdistance**2 + ydistance**2) # finds the distance magnitude
+      distance = math.sqrt(xdistance**2 + ydistance**2) # finds the distance 
       force = ((self.Gravconst*self.mass*core.mass)/distance**2) #A catagory for physics simualtions (Calculations)
       angle = math.atan2(xdistance,ydistance) #Finds the angle
       forceX = math.cos(angle) * force #Finds the force vectors
       forceY = math.sin(angle) * force
+
       self.xvel += forceX/self.mass*self.Orbit_moon #Finds the velocity vectors
       self.yvel += forceY/self.mass*self.Orbit_moon 
-      angVel = (self.xvel**2+self.yvel**2)/self.MU #Finds the angular velocity
+      print(self.xvel,self.yvel)
+      angVel = (self.xvel**2+self.yvel**2)/self.AU #Finds the angular velocity
       self.yvel += angVel*math.cos(angle+pi/2) #vecocity vectors
       self.xvel += angVel*math.sin(angle+pi/2)
       xvel = self.xvel
@@ -125,7 +127,7 @@ class body(): #B for OOP
         window.blit(text2a,textbox2a)
         window.blit(text3,textbox3)
         window.blit(text3a,textbox3a)
-
+     
       return xvel, yvel
 
 #creates menu
@@ -257,7 +259,7 @@ class MainMenu(tk.Frame):
 
 
    
-#Creates each planet
+#Creates each planet and changes them based on different simulation
 planet1a = body(5.9*10**24,6,625,375,((0,0,255)),0,0)
 planet1b = body(5.9*10**24,6,-1.49*10**9,0,((0,0,255)),0,0)
 planet2a = body(7.3*10**22,4,-1*384400000,0,((255,255,255)),100,-10)
@@ -424,16 +426,16 @@ def SEM(SunM,Earth,Moon,rate):
   #Creates key variables
   pygame.font.init() # initialises font
   planet1b = body(5.9*10**24,6,-1.49*10**9,0,((0,0,255)),0,0)
-  planet2 = body(7.3*10**22,4,-1.49*10**9,0,((255,255,255)),0,0)
+  planet2b = body(7.3*10**22,4,-1*384400000,0,((255,255,255)),100,-100)
   planet3 = body(1.989*10**30,4,625,375,((221,110,15)),0,0)
   planet1b.mass *= Earth
-  planet2.mass *= Moon
+  planet2b.mass *= Moon
   planet3.mass *= SunM
   window = pygame.display.set_mode([1250,750])
   running = True
   core_planet = planet3
-  scale1 = planet2.scale1
-  scale2 = planet2.scale2
+  scale1 = planet2b.scale1
+  scale2 = planet2b.scale2
   clock = pygame.time.Clock()
   Pause = False
   pygame.display.set_caption("Orbit Simulation")
@@ -449,7 +451,7 @@ def SEM(SunM,Earth,Moon,rate):
     text2 = Font.render("Quit",True,((0,0,0)))
     textbox1 = text1.get_rect()
     textbox2 = text2.get_rect()
-    textbox1.center =(1050,125)#
+    textbox1.center =(1050,125) #Creates boxes and text to indicate buttons for pausing/unpausing and quitting the sinulation
     textbox2.center = (150,125)
     window.blit(text1,textbox1)
     window.blit(text2,textbox2)
@@ -497,8 +499,8 @@ def SEM(SunM,Earth,Moon,rate):
     x,y = planet1b.positionUpdateS(window,core_planet,scale2,625,375)
 
     planet2b.xpos,planet2b.ypos = planet2b.calculation(planet1b,window,scale1)
-    planet2b.ypos *= planet2b.Orbit_Sun*100
-    planet2b.xpos *= planet2b.Orbit_Sun*100
+    planet2b.ypos *= planet2b.Orbit_moon
+    planet2b.xpos *= planet2b.Orbit_moon
 
     planet2b.positionUpdateS(window,planet1b,scale1,x,y)
 
