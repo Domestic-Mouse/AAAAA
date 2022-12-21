@@ -59,11 +59,10 @@ class body(): #B for OOP
       #runs calculation to find actual values through use of Gravitational force, trigonometry and circular motion as well as displays values for velocity and force of each orbiter
       pygame.font.init()
       Font = pygame.font.SysFont('timesnewroman',20)
-      forceX=0 #resets force
-      forceY=0
       xdistance =  (self.xpos - core.xpos) #finds distance vectors
       ydistance =  (self.ypos - core.ypos)
       distance = math.sqrt(xdistance**2 + ydistance**2) # finds the distance 
+      print(distance)
       force = ((self.Gravconst*self.mass*core.mass)/distance**2) #A catagory for physics simualtions (Calculations)
       angle = math.atan2(xdistance,ydistance) #Finds the angle
       forceX = math.cos(angle) * force #Finds the force vectors
@@ -72,8 +71,8 @@ class body(): #B for OOP
       self.xvel += forceX/self.mass*self.Orbit_moon #Finds the velocity vectors
       self.yvel += forceY/self.mass*self.Orbit_moon 
       print(self.xvel,self.yvel)
-      angVel = (self.xvel**2+self.yvel**2)/self.AU #Finds the angular velocity
-      self.yvel += angVel*math.cos(angle+pi/2) #vecocity vectors
+      angVel = (self.xvel**2+self.yvel**2)/self.MU #Finds the angular velocity
+      self.yvel += angVel*math.cos(angle+pi/2) #velocity vectors
       self.xvel += angVel*math.sin(angle+pi/2)
       xvel = self.xvel
       yvel = self.yvel
@@ -204,16 +203,19 @@ class MainMenu(tk.Frame):
     EarthMass.insert(0,"1.0")
     EarthMass.grid(row=7,column=0)
 
-    tk.Label(self, text="Speed of simulation").grid(row=5, column =3)
+    tk.Label(self, text="Speed of simulation").grid(row=3, column =2)
     Slow = tk.Button(self,text = "Slow", command=lambda: self.SetSpeed("Slow"))
     Slow.grid(row= 4, column = 2)
     Normal = tk.Button(self,text = "Normal", command=lambda: self.SetSpeed("Normal")) #Creates buttons for Sim speed
-    Normal.grid(row= 4, column = 3)
+    Normal.grid(row= 5, column = 2)
     Fast = tk.Button(self,text = "Fast", command=lambda: self.SetSpeed("Fast"))
-    Fast.grid(row= 4, column = 4)
+    Fast.grid(row= 6, column = 2)
+    tk.Label(self, text = "Slow is at half the normal speed").grid (row=4, column =3)
+    tk.Label(self, text = "Normal is the regular speed").grid (row=5, column =3)
+    tk.Label(self, text = "Fast is at double the normal speed").grid (row=6, column =3)
     
     End = tk.Button(self,text="Quit",command=quit)
-    End.grid(row =6 , column = 2) # closes the program
+    End.grid(row =6 , column = 1) # closes the program
     
   def SetSpeed(self,Speed):
     if Speed == "Slow":
@@ -492,16 +494,15 @@ def SEM(SunM,Earth,Moon,rate):
       
     #resets frame
     window.fill((0,0,0))
-    #bulk of calculations
+
     planet1b.xpos, planet1b.ypos = planet1b.calculation(core_planet,window,scale2)
     planet1b.xpos *= planet1b.Orbit_Sun
     planet1b.ypos *= planet1b.Orbit_Sun
     x,y = planet1b.positionUpdateS(window,core_planet,scale2,625,375)
 
     planet2b.xpos,planet2b.ypos = planet2b.calculation(planet1b,window,scale1)
-    planet2b.ypos *= planet2b.Orbit_moon
-    planet2b.xpos *= planet2b.Orbit_moon
-
+    planet2b.ypos *= planet2b.Orbit_Sun
+    planet2b.xpos *= planet2b.Orbit_Sun
     planet2b.positionUpdateS(window,planet1b,scale1,x,y)
 
     #draws bodies based on qualities and a line connecting bodies (temp)
