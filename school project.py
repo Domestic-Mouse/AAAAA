@@ -30,17 +30,17 @@ class body(): #B for OOP
       self.Orbit_moon = ((3600*24/(365/28))) # time scale for moon
       self.Orbit_Sun = ((3600*24))# time scale for Sun
 
-    def positionUpdate(self,window,core,scale): #Updates the postion of an orbiting object
+    def positionUpdate(self,window,core,scale): #Updates the postion of an orbiting object 
       y = (self.ypos * scale + 375) # finds scaled postions for x and y
       x = (self.xpos * scale + 625)
       temp1 = core.xpos
-      temp2 = core.ypos
-
+      temp2 = core.ypos #C simple scaling equations
+      # A catagory as part of the simulation
       #print(x,y)
       pygame.draw.circle(window,self.colour,(x,y),self.rad)
       pygame.draw.line(window,((255,255,255)),(temp1,temp2),(x,y))
       
-    def positionUpdateS(self,window,core,scale,X,Y): #Special position Update for Sun Earth and Moon
+    def positionUpdateS(self,window,core,scale,X,Y): #Special position Update for Sun Earth and Moon 
       if X == 0:
         temp1 = core.xpos
         temp2 = core.ypos
@@ -49,13 +49,13 @@ class body(): #B for OOP
         temp2 = Y
       y = (self.ypos * scale + Y) #Used for saving coordinates
       x = (self.xpos * scale + X)
-     
+      #A catagory as part of the simulation
       #print(x,y)
       pygame.draw.circle(window,self.colour,(x,y),self.rad)
       pygame.draw.line(window,((255,255,255)),(temp1,temp2),(x,y))
       return x,y
     
-    def calculation(self,core,window,scale):
+    def calculation(self,core,window,scale): #A catagory for physics simualtions (Calculations) and B for complex calculations
       #runs calculation to find actual values through use of Gravitational force, trigonometry and circular motion as well as displays values for velocity and force of each orbiter
       pygame.font.init()
       Font = pygame.font.SysFont('timesnewroman',20)
@@ -63,7 +63,7 @@ class body(): #B for OOP
       ydistance =  (self.ypos - core.ypos)
       distance = math.sqrt(xdistance**2 + ydistance**2) # finds the distance 
       print(distance)
-      force = ((self.Gravconst*self.mass*core.mass)/distance**2) #A catagory for physics simualtions (Calculations)
+      force = ((self.Gravconst*self.mass*core.mass)/distance**2) 
       angle = math.atan2(xdistance,ydistance) #Finds the angle
       forceX = math.cos(angle) * force #Finds the force vectors
       forceY = math.sin(angle) * force
