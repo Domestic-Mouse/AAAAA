@@ -11,7 +11,7 @@ from PIL import Image, ImageTk
 pygame.init()
 
 # initalises the class for the bodies
-class body(): #######B######## for OOP
+class body(): ####### GROUP B - Usage of simple OOP#######
     #class Earth(body):
     def __init__(self,mass,radius,xposition,yposition,colour,xvelocity,yvelocity):
       self.mass = mass #Mass of the planet
@@ -34,7 +34,7 @@ class body(): #######B######## for OOP
       y = (self.ypos * scale + 375) # finds scaled postions for x and y
       x = (self.xpos * scale + 625)
       temp1 = core.xpos
-      temp2 = core.ypos #######C####### simple scaling equations
+      temp2 = core.ypos #######GROUP C - simple scaling equations #######
       # A catagory as part of the simulation
       #print(x,y)
       pygame.draw.circle(window,self.colour,(x,y),self.rad)
@@ -49,15 +49,15 @@ class body(): #######B######## for OOP
         temp2 = Y
       y = (self.ypos * scale + Y) #Used for saving coordinates
       x = (self.xpos * scale + X) 
-      #######A####### catagory as part of the simulation
+      #######Group A - catagory as part of the simulation#######
       #print(x,y)
       pygame.draw.circle(window,self.colour,(x,y),self.rad)
       pygame.draw.line(window,((255,255,255)),(temp1,temp2),(x,y))
       return x,y
     
     def calculation(self,core,window,scale): 
-      ########A######## catagory for physics simualtions (Calculations)
-      ########B######## for complex calculations
+      ########GROUP A - catagory for physics simualtions (Calculations)########
+      ########GROUP B - for complex calculations########
       #runs calculation to find actual values through use of Gravitational force, trigonometry and circular motion as well as displays values for velocity and force of each orbiter
       pygame.font.init()
       Font = pygame.font.SysFont('timesnewroman',20)
@@ -228,7 +228,7 @@ class MainMenu(tk.Frame):
       self.rate = 0.5
 
   def getV(self,MoonMass,EarthMass,SunMass): #Gets the changed mass values each object and has exception handeling for incorrect data types
-    try: #######A####### objects change based on user input
+    try: #######GROUP A - objects change based on user input####### 
       self.MoonMass = float(MoonMass.get())
       if self.MoonMass <0.3 or self.MoonMass > 10:
         tk.Label(self,text="Please enter a deciamal value between 0.3 and 10").grid(row = 10, column = 0)
