@@ -35,7 +35,7 @@ class body(): ####### GROUP B - Usage of simple OOP#######
       x = (self.xpos * scale + 625)
       temp1 = core.xpos
       temp2 = core.ypos #######GROUP C - simple scaling equations #######
-      # A catagory as part of the simulation
+      ####### A - catagory as part of the simulation#########
       #print(x,y)
       pygame.draw.circle(window,self.colour,(x,y),self.rad)
       pygame.draw.line(window,((255,255,255)),(temp1,temp2),(x,y))
